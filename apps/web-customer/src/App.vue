@@ -13,7 +13,6 @@ const { mutate: deleteTodo } = useConvexMutation(api.todos.deleteTodo)
 const newTodoText = ref('')
 const editingId = ref<Id<'todos'> | null>(null)
 const editingText = ref('')
-const editInputRef = ref<HTMLInputElement | null>(null)
 
 // Add new todo
 const handleAddTodo = async () => {
@@ -32,11 +31,9 @@ const handleToggleComplete = async (todo: { _id: Id<'todos'>, text: string, comp
 }
 
 // Start editing
-const startEdit = async (todo: { _id: Id<'todos'>, text: string, completed: boolean }) => {
+const startEdit = (todo: { _id: Id<'todos'>, text: string, completed: boolean }) => {
   editingId.value = todo._id
   editingText.value = todo.text
-  await nextTick()
-  editInputRef.value?.focus()
 }
 
 // Cancel editing
@@ -95,13 +92,14 @@ const handleDelete = async (id: Id<'todos'>) => {
       <div v-if="isPending" class="loading">Loading todos...</div>
 
       <!-- Todos List -->
-      <div v-else-if="todos && todos.length > 0" class="todos-list">
-        <div
-          v-for="todo in todos"
-          :key="todo._id"
-          class="todo-item"
-          :class="{ completed: todo.completed }"
-        >
+      <template v-else-if="todos && todos.length > 0">
+        <div class="todos-list">
+          <div
+            v-for="todo in todos"
+            :key="todo._id"
+            class="todo-item"
+            :class="{ completed: todo.completed }"
+          >
           <!-- Edit Mode -->
           <div v-if="editingId === todo._id" class="todo-edit">
             <input
@@ -110,7 +108,6 @@ const handleDelete = async (id: Id<'todos'>) => {
               class="todo-input"
               @keyup.enter="handleSaveEdit(todo._id, todo.completed)"
               @keyup.esc="cancelEdit"
-              ref="editInputRef"
             />
             <button
               @click="handleSaveEdit(todo._id, todo.completed)"
@@ -158,7 +155,8 @@ const handleDelete = async (id: Id<'todos'>) => {
             </div>
           </div>
         </div>
-      </div>
+        </div>
+      </template>
 
       <!-- Empty State -->
       <div v-else class="empty-state">
