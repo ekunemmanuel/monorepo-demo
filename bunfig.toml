@@ -1,0 +1,7 @@
+[install]
+# Use workspaces by default
+workspace = true
+
+[install.scopes]
+# Configure scopes if needed
+

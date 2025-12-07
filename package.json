@@ -1,0 +1,26 @@
+{
+  "name": "monorepo-demo",
+  "version": "1.0.0",
+  "private": true,
+  "workspaces": [
+    "apps/*"
+  ],
+  "scripts": {
+    "dev": "bun run --filter './apps/web-*' dev",
+    "dev:all": "bun run --filter './apps/*' dev",
+    "build": "bun run --filter './apps/*' build",
+    "dev:web": "bun run --filter './apps/web-*' dev",
+    "dev:mobile": "bun run --filter './apps/mobile-*' dev",
+    "dev:customer": "bun run --filter './apps/*customer*' dev",
+    "dev:beauticians": "bun run --filter './apps/*beauticians*' dev",
+    "dev:admin": "bun run --filter './apps/*admin*' dev",
+    "convex:dev": "convex dev",
+    "convex:deploy": "convex deploy"
+  },
+  "dependencies": {
+    "convex": "^1.30.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.10.0"
+  }
+}
