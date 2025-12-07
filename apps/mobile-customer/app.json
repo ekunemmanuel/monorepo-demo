@@ -27,6 +27,12 @@
     },
     "web": {
       "favicon": "./assets/favicon.png"
-    }
+    },
+    "extra": {
+      "eas": {
+        "projectId": "bf39bf98-5778-4ee3-bf92-2941fcb149d8"
+      }
+    },
+    "owner": "painite-studio"
   }
 }

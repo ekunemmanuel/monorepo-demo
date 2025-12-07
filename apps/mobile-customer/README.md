@@ -83,27 +83,40 @@ mobile-customer/
 └── .env             # Environment variables (create this)
 ```
 
-## Building for Production
+## Building for Production with EAS
 
-### iOS
+EAS (Expo Application Services) is already configured for this app.
 
-```bash
-# Install EAS CLI
-npm install -g eas-cli
-
-# Configure EAS
-eas build:configure
-
-# Build for iOS
-eas build --platform ios
-```
-
-### Android
+### Quick Build Commands
 
 ```bash
 # Build for Android
-eas build --platform android
+bun run build:android
+
+# Build for iOS
+bun run build:ios
+
+# Build for both platforms
+bun run build:all
 ```
+
+### Build Profiles
+
+- **Development**: `eas build --profile development --platform android`
+- **Preview** (Internal testing): `eas build --profile preview --platform android`
+- **Production**: `bun run build:android` or `bun run build:ios`
+
+### Submitting to App Stores
+
+```bash
+# Submit Android to Google Play
+bun run submit:android
+
+# Submit iOS to App Store
+bun run submit:ios
+```
+
+See `EAS_SETUP.md` for detailed EAS configuration and setup instructions.
 
 ## Troubleshooting
 
