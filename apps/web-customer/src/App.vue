@@ -13,6 +13,7 @@ const { mutate: deleteTodo } = useConvexMutation(api.todos.deleteTodo)
 const newTodoText = ref('')
 const editingId = ref<Id<'todos'> | null>(null)
 const editingText = ref('')
+const editInputRef = ref<HTMLInputElement | null>(null)
 
 // Add new todo
 const handleAddTodo = async () => {
@@ -31,9 +32,16 @@ const handleToggleComplete = async (todo: { _id: Id<'todos'>, text: string, comp
 }
 
 // Start editing
-const startEdit = (todo: { _id: Id<'todos'>, text: string, completed: boolean }) => {
+const startEdit = async (todo: { _id: Id<'todos'>, text: string, completed: boolean }) => {
   editingId.value = todo._id
   editingText.value = todo.text
+  // Wait for DOM to update, then focus the input
+  await nextTick()
+  // Use setTimeout to ensure the input is fully rendered
+  setTimeout(() => {
+    editInputRef.value?.focus()
+    editInputRef.value?.select()
+  }, 0)
 }
 
 // Cancel editing
@@ -103,6 +111,7 @@ const handleDelete = async (id: Id<'todos'>) => {
           <!-- Edit Mode -->
           <div v-if="editingId === todo._id" class="todo-edit">
             <input
+              ref="editInputRef"
               v-model="editingText"
               type="text"
               class="todo-input"
