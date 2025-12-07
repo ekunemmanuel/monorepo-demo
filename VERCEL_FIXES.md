@@ -8,22 +8,12 @@
 4. **Vue DevTools**: Disabled in production builds
 5. **Convex deployment**: Should be done separately, not during Vercel build
 
-## Important: Prevent Convex Auto-Deploy
+## Important: Convex Generated Files
 
-Vercel is automatically running `bunx convex deploy` during builds. To prevent this:
-
-### Option 1: In Vercel Dashboard (Recommended)
-
-For each project (web-customer, web-admin):
-1. Go to **Project Settings** → **Build & Development Settings**
-2. Make sure **Build Command** is set to: `bun run build` (NOT `bunx convex deploy && bun run build`)
-3. The `vercel.json` files should handle this, but verify in dashboard
-
-### Option 2: Remove Convex from Build
-
-If Vercel keeps auto-detecting Convex:
-- The `.vercelignore` files should help
-- Or move `convex.json` to a different location during build
+The build now generates Convex types during the build process:
+- Uses `convex dev --once --typecheck disable --no-push` to generate types without deploying
+- This ensures the `convex/_generated` files are available for the build
+- Convex deployment should be done separately: `bun run convex:deploy`
 
 ## Build Configuration
 
